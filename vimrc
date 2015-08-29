@@ -11,20 +11,15 @@ set number
 set ignorecase
 set hlsearch
 set noswapfile
-set rtp+=~/.vim/bundle/vundle
 
-"switcher
+"switches
 filetype on
 colorscheme koehler
 syntax on
-filetype plugin indent on
 
-"functions callls
 if has("autocmd")
 	au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")|execute("normal `\"")|endif
 endif
-
-call vundle#rc()
 
 autocmd BufNewFile *.php exec ":call NewPhp()"
 func NewPhp()
@@ -56,8 +51,8 @@ func SetTitle()
     else 
         call setline(1, "/*************************************************************************") 
         call append(line("."), "    > File Name: ".expand("%")) 
-        call append(line(".")+1, "    > Author: Walker") 
-        call append(line(".")+2, "    > Mail: zhuoliang1110@163.com ") 
+        call append(line(".")+1, "    > Author: zhuoliang") 
+        call append(line(".")+2, "    > Mail: zhuoliang1110@gmail.com ") 
         call append(line(".")+3, "    > Created Time: ".strftime("%c")) 
         call append(line(".")+4, " ************************************************************************/") 
         call append(line(".")+5, "")
@@ -68,22 +63,31 @@ func SetTitle()
     if &filetype == 'c'
         call append(line(".")+6, "")
     endif
+	call append(line('$'), "/* vim: set expandtab ts=4 sw=4 sts=4 tw=100: */")
+    autocmd BufNewFile * normal G
 endfunc 
 
-"keyboaard commands
+autocmd FileType apache setlocal commentstring=#\ %s
+
+"keyboard commands
 nmap <leader>w :w<CR>
 nmap <leader>q :q<CR>
 nmap ' :vsp 
 nmap ; :sp 
 nmap . :only
 nmap , :close
+nmap <F9> O/**<CR>@brief: <CR>@date:[<ESC>:read !date <CR>kJ$a ]<CR>@author: zhuoliang<CR>@param: <CR>@return: <CR>/<ESC>5kA
 
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+
+"My plugin
 Bundle 'gmarik/vundle'
 Bundle 'L9'
 Bundle 'taglist.vim'
 "Bundle 'Valloric/YouCompleteMe'
-"Bundle 'davidhalter/jedi-vim'
-"Bundle 'scrooloose/nerdcommenter'
+Bundle 'davidhalter/jedi-vim'
+Bundle 'scrooloose/nerdcommenter'
 "Bundle 'bling/vim-airline'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'cpp.vim'
@@ -104,6 +108,8 @@ Bundle 'AutoComplPop'
 Bundle 'vim-clang'
 Bundle 'headerguard'
 Bundle 'AutoClose'
+Bundle 'STL-Syntax'
+Bundle "EasyMotion"
 
 "taglist
 nnoremap <F8> :TlistToggle<CR>
@@ -124,8 +130,10 @@ let g:vim_markdown_folding_disabled=1
 
 "vim-colors-solarized
 "syntax enable
-set background=dark
+""set background=dark
 "colorscheme solarized
 
 "headerguard
 nmap <leader>h :HeaderguardAdd<CR>
+
+set nocompatible
